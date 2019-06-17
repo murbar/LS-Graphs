@@ -153,12 +153,14 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print('Depth traversal, recursive:')
     graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    print('Breadth search:')
     print(graph.bfs(1, 6))
 
     '''
@@ -166,4 +168,5 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print('Depth search:')
     print(graph.dfs(1, 6))
