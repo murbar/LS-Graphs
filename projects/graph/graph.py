@@ -30,14 +30,40 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        path = []
+        visited = set()
+        to_visit = Queue()
+        to_visit.enqueue(starting_vertex)
+
+        while to_visit.size() > 0:
+            vertex = to_visit.dequeue()
+            if vertex not in visited:
+                visited.add(vertex)
+                path.append(vertex)
+                for neighbor in self.vertices[vertex]:
+                    to_visit.enqueue(neighbor)
+
+        print(path)
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        path = []
+        visited = set()
+        to_visit = Stack()
+        to_visit.push(starting_vertex)
+
+        while to_visit.size() > 0:
+            vertex = to_visit.pop()
+            if vertex not in visited:
+                visited.add(vertex)
+                path.append(vertex)
+                for neighbor in self.vertices[vertex]:
+                    to_visit.push(neighbor)
+
+        print(path)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -89,6 +115,7 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
+    print('Vertices:')
     print(graph.vertices)
 
     '''
@@ -98,6 +125,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print('Depth traversal:')
     graph.dft(1)
 
     '''
@@ -115,6 +143,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print('Breadth traversal:')
     graph.bft(1)
 
     '''
