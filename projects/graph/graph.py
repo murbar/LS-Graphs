@@ -71,7 +71,19 @@ class Graph:
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        path = []
+        visited = set()
+
+        def traverse(vertex, visited):
+            if vertex in visited:
+                return
+            visited.add(vertex)
+            path.append(vertex)
+            for neighbor in self.vertices[vertex]:
+                traverse(neighbor, visited)
+
+        traverse(starting_vertex, visited)
+        print(path)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
