@@ -91,7 +91,23 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        path = []
+        visited = set()
+        to_visit = Queue()
+        to_visit.enqueue(starting_vertex)
+
+        # isn't right, always returns 3??? idk
+        while to_visit.size() > 0:
+            vertex = to_visit.dequeue()
+            path.append(vertex)
+            if vertex not in visited:
+                visited.add(vertex)
+                neighbors = self.vertices[vertex]
+                if destination_vertex in neighbors:
+                    path.append(destination_vertex)
+                    return path
+                for neighbor in neighbors:
+                    to_visit.enqueue(neighbor)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -99,7 +115,21 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        path = []
+        visited = set()
+        to_visit = Stack()
+        to_visit.push(starting_vertex)
+
+        while to_visit.size() > 0:
+            vertex = to_visit.pop()
+            if vertex == destination_vertex:
+                path.append(vertex)
+                return path
+            if vertex not in visited:
+                visited.add(vertex)
+                path.append(vertex)
+                for neighbor in self.vertices[vertex]:
+                    to_visit.push(neighbor)
 
 
 if __name__ == '__main__':
