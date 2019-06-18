@@ -10,6 +10,7 @@
 
 
 def get_parents(vertex, graph):
+    # for larger graphs it may be better to rebuild the graph up-front with vertex-parent relationships
     parents = []
     for v, children in graph.items():
         if vertex in children:
