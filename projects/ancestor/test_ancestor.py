@@ -10,3 +10,5 @@ graph = {
     11: {8},
     10: {1}
 }
+
+print(earliest_ancestor(graph, 6))  # -> 10
