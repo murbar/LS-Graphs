@@ -34,7 +34,8 @@ def earliest_ancestor(graph, vertex):
             visited.add(vertex)
             parents = get_parents(vertex, graph)
             if not parents:
-                terminating_paths.append(candidate_path)
+                if len(candidate_path) > 1:
+                    terminating_paths.append(candidate_path)
             for p in parents:
                 next_path = candidate_path.copy()
                 next_path.append(p)
