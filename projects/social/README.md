@@ -59,7 +59,7 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 1. You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
 
-> I think since the friendships are randomly distributed, the degree approaches 1/2 of the lg or total users in the graph. To make it more realistic, we might might distribute the connections less "randomly", clumping them together. Maybe by assigning the users a random location and then make connections between users geographically close are more likely.
+> I think since the friendships are randomly distributed, the degree approaches 1/2 of the lg or total users in the graph. 1/2 because each degree represents a relationship between 2 users. To make it more realistic, we might might distribute the connections less "randomly", clumping them together. Maybe by assigning the users a random location and then make connections between users geographically close are more likely.
 
 2. If you followed the hints for part 1, your `populateGraph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
 
