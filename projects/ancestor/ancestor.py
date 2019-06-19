@@ -22,7 +22,7 @@ def earliest_ancestor(graph, vertex):
     """Returns the ancestor with the farthest distance and lowest
        numeric ID from the supplied vertex. If none is found, returns -1."""
 
-    visited = set()
+    visited = set()  # may not need this because there are no cycles in the input?
     paths_stack = []
     paths_stack.append([vertex])
     terminating_paths = []
