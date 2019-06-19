@@ -68,7 +68,7 @@ class SocialGraph:
             for f in random_friends:
                 self.addFriendship(user, f)
 
-        # second pass
+        # second pass - first pass much more performant
         # possible_friendships = []
         # for user in self.users:
         #     for friend in self.users:
@@ -89,9 +89,54 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
+        paths = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
-        return visited
+
+        # get friends with BFT
+        def get_extended_network(user):
+            network = []
+            visited = set()
+            to_visit = []
+            to_visit.append(user)
+
+            while to_visit:
+                u = to_visit.pop(0)
+                if u not in visited:
+                    visited.add(u)
+                    network.append(u)
+                    for f in self.friendships[u]:
+                        to_visit.append(f)
+
+            return network[1:]  # exclude self
+
+        extended = get_extended_network(userID)
+
+        # find shortest path (BFS) between user and each node in extended network
+        # not sure if this could all be done in the traversal function...
+        def get_path_between_users(origin_user, target_user):
+            visited = set()
+            paths_queue = []
+            paths_queue.append([origin_user])
+
+            while paths_queue:
+                path = paths_queue.pop(0)
+                user = path[-1]
+                if user == target_user:
+                    return path
+                if user not in visited:
+                    visited.add(user)
+                    friends = self.friendships[user]
+                    for f in friends:
+                        next_path = path.copy()
+                        next_path.append(f)
+                        paths_queue.append(next_path)
+
+            return None
+
+        for user in extended:
+            paths[user] = get_path_between_users(userID, user)
+
+        return paths
 
 
 if __name__ == '__main__':
