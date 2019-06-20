@@ -25,6 +25,24 @@ player = Player("Name", world.startingRoom)
 traversalPath = []
 
 
+"""
+build the graph
+dictionary with roomId as key and possible travel directions dict as value
+    fill is directions with id of room it leads to as we go
+while the length of graph is less than rooms in world 500
+    add room to graph
+    pick next direction, repeat
+    when at dead end (only direction is the way we came)
+        travel back until we get to a room with an unexplored direction
+        use BFS to find path to nearest room with '?' in directions value
+        convert room sequence to cardinal directions
+
+DFT until get to dead end
+BFS to backtrack to nearest fork
+Repeat in loop
+"""
+
+
 
 # TRAVERSAL TEST
 visited_rooms = set()
