@@ -70,7 +70,7 @@ def test_multipass(n=100):
     avg = statistics.mean(moves)
     print(f'Average moves in {n} passes:', avg)
 
-test_multipass()
+# test_multipass()
 
 #######
 # UNCOMMENT TO WALK AROUND
