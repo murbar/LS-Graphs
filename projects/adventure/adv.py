@@ -168,6 +168,17 @@ else:
     print(f"{len(roomGraph) - len(visited_rooms)} unvisited rooms")
 
 
+
+def test_multipass(n=100):
+    moves = []
+    for _ in range(n):
+        traversal = walk_map(world, player)
+        moves.append(len(traversal))
+    avg = statistics.mean(moves)
+    print(f'Average moves in {n} passes:', avg)
+
+test_multipass()
+
 #######
 # UNCOMMENT TO WALK AROUND
 #######
