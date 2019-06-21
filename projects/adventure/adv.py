@@ -44,79 +44,73 @@ Repeat in loop
 """
 
 
-def walk_map(debug=False):
-    path = []
-    graph = {}
-    room = player.currentRoom.id
-    previous_room = None
+def walk_map(world, player, debug=False):
+    traversal_path = []
+    world_map = {}
 
-    def init_room():
-        if room not in graph:
+    def init_room(room):
+        if room not in world_map:
             exits = {direction: '?' for direction in player.currentRoom.getExits()}
-            graph[room] = exits
+            world_map[room] = exits
 
-    def get_exits():
-        return graph[room]
+    def get_exits(room):
+        return world_map[room]
 
-    def get_next_direction():
-        exits = get_exits()
+    def get_next_direction(room):
+        exits = get_exits(room)
         unexplored = [d for d, rm in exits.items() if rm == '?']
+        # get the first one -- may change to random one later on
         return unexplored[0] if unexplored else None
 
     def invert_direction(direction):
-        if direction == 'n':
-            return 's'
-        if direction == 'e':
-            return 'w'
-        if direction == 's':
-            return 'n'
-        if direction == 'w':
-            return 'e'
+        inverted = {'n': 's', 'e': 'w', 's': 'n', 'w': 'e'}
+        return inverted[direction]
 
-    def log_move():
+    def log_move(room, previous_room):
         if previous_room is None:
             return
 
-        last_direction = path[-1]
-        graph[previous_room][last_direction] = room
-        graph[room][invert_direction(last_direction)] = previous_room
+        last_direction = traversal_path[-1]
+        world_map[previous_room][last_direction] = room
+        world_map[room][invert_direction(last_direction)] = previous_room
 
-    def print_debug(room, graph, path, previous_room, next_direction):
+    def print_debug(room, world_map, traversal_path, previous_room, next_direction):
         if debug:
             print()
             print('in room:', room)
-            print('map:', graph)
-            print('path:', path)
+            print('map:', world_map)
+            print('traversal path:', traversal_path)
             print('last room:', previous_room)
             print('next move:', next_direction)
             if not next_direction:
                 print('dead end')
 
-    # main loop
-    while len(graph) < len(world.rooms):
+        # main loop
+    previous_room = None
+    while len(world_map) < len(world.rooms):
         room = player.currentRoom.id
 
-        init_room()
-        log_move()
+        init_room(room)
+        log_move(room, previous_room)
 
-        next_direction = get_next_direction()
+        next_direction = get_next_direction(room)
 
-        print_debug(room, graph, path, previous_room, next_direction)
+        print_debug(room, world_map, traversal_path,
+                    previous_room, next_direction)
 
         if not next_direction:
             break
             # BFS to closest room with unexplored direction
             # move player each direction, record moves
         else:
-            # get the first one -- may change to random one later on
             previous_room = room
-            path.append(next_direction)
+            traversal_path.append(next_direction)
             player.travel(next_direction)
 
-    return path
+    return traversal_path
 
 
-traversalPath = walk_map(debug=True)
+traversalPath = walk_map(world, player, debug=True)
 # ['n', 'n', 's', 's', 's', 'n', 'w', 'w', 's', 'n', 'e', 'e', 'e', 'w']
 
 # TRAVERSAL TEST
