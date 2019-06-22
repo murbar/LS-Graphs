@@ -48,6 +48,11 @@ class SocialGraph:
         self.friendships = {}
         # !!!! IMPLEMENT ME
 
+        # Add users
+        for i in range(numUsers):
+            self.addUser(f"User {i+1}")
+        # Create friendships
+
         def generate_random_friends(user, n):
             friends = []
             while len(friends) < n:
@@ -55,11 +60,6 @@ class SocialGraph:
                 if friend != user:
                     friends.append(friend)
             return friends
-
-        # Add users
-        for i in range(numUsers):
-            self.addUser(f"User {i+1}")
-        # Create friendships
 
         # first pass
         for user in self.users:
@@ -137,6 +137,21 @@ class SocialGraph:
             paths[user] = get_path_between_users(userID, user)
 
         return paths
+
+        # brady's
+        # queue = []
+        # visited = {}
+        # queue.append([userID])
+        # while queue:
+        #     path = queue.pop(0)
+        #     v = path[-1]
+        #     if v not in visited:
+        #         visited[v] = path
+        #         for u in self.friendships[v]:
+        #             path_copy = path.copy()
+        #             path_copy.append(u)
+        #             queue.append(path_copy)
+        # return visited
 
 
 if __name__ == '__main__':
