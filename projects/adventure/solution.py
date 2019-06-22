@@ -70,6 +70,13 @@ def find_directional_path_through_rooms(world_map, room_sequence):
     return directions
 
 
+def add_paths_to_queue(current_path, adjacent_rooms, queue):
+    for room in adjacent_rooms:
+        next_path = current_path.copy()
+        next_path.append(room)
+        queue.append(next_path)
+
+
 def backtrack(world_map, start_room):
     visited = set()
     paths_queue = deque()
@@ -80,16 +87,19 @@ def backtrack(world_map, start_room):
         last_room = path[-1]
         unexplored_exits = get_next_direction(world_map, last_room)
         if unexplored_exits:
-            return find_directional_path_through_rooms(world_map, path)
+            break
         if last_room not in visited:
             visited.add(last_room)
             adjacent_rooms = [rm for d, rm in world_map[last_room].items()]
-            for r in adjacent_rooms:
-                next_path = path.copy()
-                next_path.append(r)
-                paths_queue.append(next_path)
+            add_paths_to_queue(path, adjacent_rooms, paths_queue)
 
-    return None
+    return find_directional_path_through_rooms(world_map, path)
+
+
+def make_moves(traversal_path, player, directions_path):
+    for direction in directions_path:
+        traversal_path.append(direction)
+        player.travel(direction)
 
 
 def walk_map(world, player, debug=False):
@@ -108,15 +118,12 @@ def walk_map(world, player, debug=False):
                         previous_room, next_direction)
 
         if next_direction:
+            make_moves(traversal_path, player, [next_direction])
             previous_room = current_room
-            traversal_path.append(next_direction)
-            player.travel(next_direction)
         else:
             path_to_last_unexplored = backtrack(world_map, current_room)
             if path_to_last_unexplored:
-                for direction in path_to_last_unexplored:
-                    traversal_path.append(direction)
-                    player.travel(direction)
+                make_moves(traversal_path, player, path_to_last_unexplored)
                 previous_room = None
 
     return traversal_path
